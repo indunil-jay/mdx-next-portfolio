@@ -1,6 +1,7 @@
-
-export default function Home() {
+export default function Header() {
   return (
- <>app</>
+    <section className="pb-24 pt-40">
+      <div className="container max-w-3xl "></div>
+    </section>
   );
 }
