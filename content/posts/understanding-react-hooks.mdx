@@ -1,0 +1,66 @@
+---
+title: "Understanding React Hooks"
+summary: "Learn about React Hooks and how they simplify state and lifecycle management in functional components."
+image: /images/posts/react-hook.png
+author: "Jane Developer"
+publishedAt: "2024-11-01"
+---
+
+React Hooks introduced in version 16.8 revolutionized the way developers work with state and lifecycle in functional components. Hooks allow developers to use state, side effects, and other React features in functional components.
+
+## Why Use React Hooks?
+
+- **Simplifies Functional Components:** Hooks eliminate the need for class components.
+- **Encapsulates Logic:** Easily reuse logic across components using custom hooks.
+- **Improved Readability:** Cleaner code that is easier to understand and maintain.
+
+## Key Hooks
+
+### useState
+
+The `useState` hook allows you to add state to functional components.
+
+```javascript
+import { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+```
+
+### useEffect
+
+The `useEffect` hook is used to handle side effects like fetching data or subscribing to events.
+
+```javascript
+import { useEffect, useState } from "react";
+
+const DataFetcher = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.example.com/data")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []); // Empty dependency array means this effect runs once after the component mounts.
+
+  return (
+    <ul>
+      {data.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+
+## Conclusion
+
+React Hooks enable developers to use state and side effects in functional components, making the code simpler, more readable, and easier to maintain.

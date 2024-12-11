@@ -1,0 +1,52 @@
+---
+title: "Getting Started with Express.js"
+summary: "Learn how Express.js simplifies building web servers and APIs with Node.js."
+image: /images/posts/expressjs.jpg
+author: "Jane Developer"
+publishedAt: "2024-09-15"
+---
+
+Express.js is a minimalist web framework for Node.js, providing a robust set of features for web and mobile applications. It simplifies the process of creating a server and handling requests and responses.
+
+## Why Use Express.js?
+
+- **Lightweight:** Minimalistic yet powerful framework for building APIs.
+- **Routing:** Simplified routing system for handling HTTP requests.
+- **Middleware:** Flexible middleware support for tasks like authentication and logging.
+- **Templating Engines:** Integration with templating engines for dynamic page rendering.
+
+## Key Features
+
+### Routing
+
+Express makes defining routes easy with support for dynamic routes, query parameters, and more.
+
+```javascript
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+### Middleware
+
+Express allows you to add middleware functions to handle HTTP requests before they are passed to route handlers.
+
+```javascript
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+};
+
+app.use(logger);
+```
+
+## Conclusion
+
+Express.js makes it easier to handle routing and requests in Node.js, offering a clean, modular structure that scales well with growing applications.

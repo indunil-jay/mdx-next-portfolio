@@ -1,0 +1,65 @@
+---
+title: "Understanding React Context API"
+summary: "Learn how React Context API helps manage state across your application without prop drilling."
+image: /images/posts/react-api.jpeg
+author: "Jane Developer"
+publishedAt: "2024-10-01"
+---
+
+React Context API provides a way to share values between components without passing props manually at every level. It's useful for managing global state like themes, authentication, or language preferences.
+
+## Why Use React Context API?
+
+- **Avoid Prop Drilling:** No need to pass props through every intermediate component.
+- **Simplified State Management:** Useful for global state management without using Redux.
+- **Improved Code Organization:** Makes code cleaner and reduces clutter in components.
+
+## Key Features
+
+### Creating a Context
+
+Create a context with `React.createContext` to provide and consume data.
+
+```javascript
+import React, { createContext, useContext, useState } from "react";
+
+const ThemeContext = createContext();
+
+export const useTheme = () => useContext(ThemeContext);
+
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+```
+
+### Using Context in Components
+
+You can now use the `useTheme` hook to consume the context and toggle the theme.
+
+```javascript
+import { useTheme } from "./ThemeProvider";
+
+const ThemeToggler = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <button onClick={toggleTheme}>
+      Switch to {theme === "light" ? "dark" : "light"} mode
+    </button>
+  );
+};
+```
+
+## Conclusion
+
+The Context API simplifies state management and eliminates the need for prop drilling, making it a valuable tool for small to medium-sized applications.

@@ -35,12 +35,16 @@ export async function getPosts(limit?: number): Promise<PostMetadata[]> {
 
   const posts = files
     .map((file) => getPostMetadata(file))
+    .filter((post) => post !== null) // Filter out null results
     .sort((a, b) => {
-      if (new Date(a.publishedAt ?? "") < new Date(b.publishedAt ?? "")) {
-        return 1;
-      } else {
-        return -1;
+      const dateA = new Date(a.publishedAt ?? "");
+      const dateB = new Date(b.publishedAt ?? "");
+
+      if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+        return 0; // Skip invalid dates
       }
+
+      return dateA < dateB ? 1 : -1; // Sort in descending order
     });
 
   if (limit) {
@@ -50,10 +54,31 @@ export async function getPosts(limit?: number): Promise<PostMetadata[]> {
   return posts;
 }
 
-export function getPostMetadata(filepath: string): PostMetadata {
+export function getPostMetadata(filepath: string): PostMetadata | null {
   const slug = filepath.replace(/\.mdx$/, "");
   const filePath = path.join(rootDirectory, filepath);
-  const fileContent = fs.readFileSync(filePath, { encoding: "utf8" });
-  const { data } = matter(fileContent);
-  return { ...data, slug };
+
+  try {
+    const fileContent = fs.readFileSync(filePath, { encoding: "utf-8" });
+    const { data } = matter(fileContent);
+
+    // If required fields are missing, log the error and return null
+    if (!data.title || !data.publishedAt) {
+      console.warn(`Missing metadata in post: ${slug}`);
+      return null; // Skip incomplete posts
+    }
+
+    // Return post metadata with defaults for missing values
+    return {
+      title: data.title || "Untitled Post",
+      summary: data.summary || "No summary available.",
+      image: data.image || "/images/default.jpg",
+      author: data.author || "Unknown Author",
+      publishedAt: data.publishedAt || "1970-01-01", // Default date for missing dates
+      slug,
+    };
+  } catch (error) {
+    console.error(`Error reading file ${filepath}:`, error);
+    return null; // Skip file if error occurs
+  }
 }

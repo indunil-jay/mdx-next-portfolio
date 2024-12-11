@@ -1,0 +1,42 @@
+---
+title: "Introduction to MongoDB"
+summary: "Learn how MongoDB stores data and how to interact with this NoSQL database."
+image: /images/posts/mongodb.jpeg
+author: "Jane Developer"
+publishedAt: "2024-09-05"
+---
+
+MongoDB is a NoSQL database that stores data in flexible, JSON-like documents. It is ideal for handling large amounts of unstructured or semi-structured data. MongoDB allows easy scaling and is often used in modern web applications.
+
+## Why MongoDB?
+
+- **Schema-less:** Flexible data model that doesn’t require predefined schemas.
+- **Scalability:** Easily scales horizontally across many machines.
+- **High Availability:** Built-in replication to ensure high availability of data.
+- **Rich Query Language:** Allows querying data with simple or complex queries.
+
+## Key Concepts
+
+### Collections and Documents
+
+MongoDB stores data in collections, which are groups of documents. Each document is a set of key-value pairs, similar to JSON.
+
+```javascript
+db.users.insertOne({
+  name: "John Doe",
+  age: 30,
+  email: "john.doe@example.com",
+});
+```
+
+### Querying Data
+
+MongoDB provides a rich query language to fetch and filter documents.
+
+```javascript
+db.users.find({ age: { $gt: 25 } });
+```
+
+## Conclusion
+
+MongoDB provides a powerful, scalable solution for storing and querying unstructured data, making it an ideal choice for modern web applications.
